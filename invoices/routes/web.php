@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InvoiceController as I;
+use App\Http\Controllers\ClientController as C;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,19 @@ Route::prefix('invoices')->name('invoices-')->group(function () {
     Route::post('/', [I::class, 'store'])->name('store'); // store new
     Route::put('/{invoice}', [I::class, 'update'])->name('update'); // update
     Route::delete('/{invoice}', [I::class, 'destroy'])->name('destroy'); // delete
+});
+
+Route::prefix('clients')->name('clients-')->group(function () {
+    Route::get('/', [C::class, 'index'])->name('index'); // all invoices
+    Route::get('/show/{client}', [C::class, 'show'])->name('show'); // show one inv
+
+    Route::get('/create', [C::class, 'create'])->name('create'); // show create
+    Route::get('/edit/{invoice}', [C::class, 'edit'])->name('edit'); // show edit
+    Route::get('/delete/{client}', [C::class, 'delete'])->name('delete'); // show delete
+
+    Route::post('/', [C::class, 'store'])->name('store'); // store new
+    Route::put('/{invoice}', [C::class, 'update'])->name('update'); // update
+    Route::delete('/{client}', [C::class, 'destroy'])->name('destroy'); // delete
 });
 
 Auth::routes();

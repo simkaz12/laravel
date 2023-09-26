@@ -12,7 +12,8 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        //
+        $invoices = Invoice::all();
+        // $invoices are collection of Invoice model obj
     }
 
     /**
@@ -30,7 +31,20 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $inv = new Invoice();
+
+        $inv->invoice_number = $request->number;
+        $inv->invoice_date = $request->date;
+        $inv->client_name = $request->name;
+        $inv->client_address = $request->address;
+        $inv->client_address2 = $request->address2;
+        $inv->client_vat = $request->vat;
+        $inv->client_country = $request->country;
+        $inv->invoice_amount = $request->amount;
+
+        $inv->save();
+
+        return redirect()->route('invoices-index');
     }
 
     /**
@@ -57,6 +71,13 @@ class InvoiceController extends Controller
         //
     }
 
+
+    public function delete(Invoice $invoice)
+    {
+        return view('invoices.delete', [
+            'invoice' => $invoice,
+        ]);
+    }
     /**
      * Remove the specified resource from storage.
      */

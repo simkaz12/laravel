@@ -69,7 +69,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label">Amount</label>
-                                    <input type="text" class="form-control" placeholder="amount" name="vat">
+                                    <input type="text" class="form-control" placeholder="amount" name="amount">
                                 </div>
                             </div>
                             <div class="col-md-12">

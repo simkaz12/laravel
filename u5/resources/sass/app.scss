@@ -1,0 +1,22 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+.iban {
+    font-size: 2.2rem;
+    padding: 5px;
+}
+
+
+.mb-12 {
+    .form-floating {
+        .padding {
+            padding: 10px;
+        }
+    }
+}
