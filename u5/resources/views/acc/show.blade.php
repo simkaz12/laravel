@@ -18,8 +18,12 @@
                         <div>{{$account->balance}} &euro;</div>
                     </div>
                     <div class="col-md-5">
-                        <a href="{{route('acc-edit', $account->id)}}" class="btn btn-outline-primary mt-2" style="margin-right: 5px">Tax</a>
-                        <a href="{{route('acc-transfer', $account->id)}}" class="btn btn-outline-secondary mt-2" style="margin-right: 5px">Transfer</a>
+                        <form method="POST" action="{{ route('acc-tax', $account) }}" class="inline" style="margin-right: 5px">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-primary mt-2 " >Tax</button>
+                            @method('PUT')
+                        </form>
+                        <a href="{{route('acc-edit', $account->id)}}" class="btn btn-outline-secondary mt-2" style="margin-right: 5px">Transfer</a>
                         <a href="{{route('acc-delete', $account->id)}}" class="btn btn-outline-danger mt-2" style="margin-right: 5px">Delete</a>
                         <a href="{{route('acc-index')}}" class="btn btn-outline-secondary mt-2">Cancel</a>
 

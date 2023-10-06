@@ -12,6 +12,7 @@ class AccountController extends Controller
      */
     public function index()
     {
+
         $accounts = Account::all();
 
         return view('acc.index', [
@@ -24,6 +25,7 @@ class AccountController extends Controller
      */
     public function create()
     {
+
         return view('acc.create');
     }
 
@@ -36,7 +38,7 @@ class AccountController extends Controller
         $acc->iban = createIBAN();
         $acc->balance = 0;
         $acc->type = $request->type;
-        $acc->user_id = 1;
+        $acc->user_id = auth()->user()->id;
         $acc->save();
 
         return redirect()
@@ -82,17 +84,41 @@ class AccountController extends Controller
      */
     public function update(Request $request, Account $account)
     {
-        //
+        $accounts = Account::all();
+        $receiver = null;
+
+        foreach ($accounts as $acc) {
+            if ($request->receiver == $acc->id) {
+                $receiver = $acc;
+            }
+        }
+
+        $account->balance = ($account->balance - $request->amount);
+        $receiver->balance = ($receiver->balance + $request->amount);
+
+        $account->save();
+        $receiver->save();
+
+        return redirect()
+            ->route('acc-show', [
+                'account' => $account
+            ])
+            ->with('msg', ['type' => 'success', 'content' => 'Transfer complete!']);
+
+
     }
 
 
-    public function transfer(Request $request, Account $account)
+    public function tax(Account $account)
     {
-        $accounts = Account::all();
-        return view('acc.transfer', [
-            'account' => $account,
-            'accounts' => $accounts
-        ]);
+        $account->balance = ($account->balance - 5);
+        $account->save();
+
+        return redirect()
+            ->route('acc-show', [
+                'account' => $account
+            ])
+            ->with('msg', ['type' => 'success', 'content' => 'Tax has been paid!']);
     }
 
     /**
@@ -100,7 +126,7 @@ class AccountController extends Controller
      */
     public function destroy(Account $account)
     {
-        if ($account->balance == 0) {
+        if (0 == $account->balance) {
             $account->delete();
 
             return redirect()
@@ -109,6 +135,13 @@ class AccountController extends Controller
                     'type' => 'success',
                     'content' => 'Account succsessfuly deleated!'
                 ]);
+        } else if (0 > $account->balance) {
+            return redirect()->route('acc-delete', [
+                'account' => $account
+            ])->with('msg', [
+                        'type' => 'danger',
+                        'content' => 'Account with negative balance cannot be deleted.'
+                    ]);
         } else {
             return redirect()->route('acc-delete', [
                 'account' => $account

@@ -16,9 +16,8 @@
                         <div class="mb-3">
                             <label for="ibanType" class="form-label">Type Of The Account</label>
                             <select class="form-select" id="ibanType" name="type">
-                                <option selected>Chose the type of the account</option>
                                 <option value="savings">Savings</option>
-                                <option value="normal">Normal</option>
+                                <option value="normal" selected>Normal</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-outline-success" style="margin-right: 5px">Open</button>

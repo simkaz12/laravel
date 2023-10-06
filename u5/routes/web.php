@@ -16,26 +16,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+Route::get('/', [H::class, 'index'])->name('home');
 
 Route::prefix('acc')->name('acc-')->group(function () {
 
-    Route::get('/', [A::class, 'index'])->name('index'); // all
-    Route::get('/create', [A::class, 'create'])->name('create'); // show create
-    Route::post('/', [A::class, 'store'])->name('store'); // create
-    Route::get('/show/{account}', [A::class, 'show'])->name('show'); // show one
-    Route::get('/edit/{account}', [A::class, 'edit'])->name('edit'); // show edit
-    Route::get('/transfer/{account}', [A::class, 'transfer'])->name('transfer'); // show edit
-    Route::put('/{account}', [A::class, 'update'])->name('update'); // edit
-    Route::get('/delete/{account}', [A::class, 'delete'])->name('delete'); // show delete
-    Route::delete('/{account}', [A::class, 'destroy'])->name('destroy'); // destroy
+    Route::get('/', [A::class, 'index'])->name('index')->middleware('simple'); // all
+    Route::get('/create', [A::class, 'create'])->name('create')->middleware('simple'); // show create
+    Route::post('/', [A::class, 'store'])->name('store')->middleware('simple'); // create
+    Route::get('/show/{account}', [A::class, 'show'])->name('show')->middleware('simple'); // show one
+    Route::get('/edit/{account}', [A::class, 'edit'])->name('edit')->middleware('simple'); // show edit
+    Route::put('/tax/{account}', [A::class, 'tax'])->name('tax')->middleware('simple'); // tax account
+    Route::put('/{account}', [A::class, 'update'])->name('update')->middleware('simple'); // edit
+    Route::get('/delete/{account}', [A::class, 'delete'])->name('delete')->middleware('simple'); // show delete
+    Route::delete('/{account}', [A::class, 'destroy'])->name('destroy')->middleware('simple'); // destroy
 
 
 
 });
 
 Auth::routes();
-
-Route::get('/home', [H::class, 'index'])->name('home');
